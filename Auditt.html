@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-container {
+            margin: 20px;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .card {
+            margin: 10px 0;
+        }
+        .audit-pointers {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Pages -->
+<div id="loginPage" class="login-container">
+    <h3 class="text-center">Audit Management System</h3>
+    <form id="loginForm">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+        </div>
+        <div class="mb-3">
+            <label for="role" class="form-label">Login as</label>
+            <select class="form-select" id="role" required>
+                <option value="">Select Role</option>
+                <option value="admin">Admin</option>
+                <option value="auditor">Auditor</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+</div>
+
+<!-- Dashboard Pages -->
+<div id="dashboardPage" class="dashboard-container d-none">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Audit Dashboard</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="studentQueriesLink">Student Queries</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <h4 class="text-center">Welcome, <span id="userRole"></span></h4>
+
+    <div class="row">
+        <!-- Visualization Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Call Data Overview</h5>
+                    <canvas id="callChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ticket Data Overview</h5>
+                    <canvas id="ticketChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Call and Ticket Details</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Call ID</th>
+                        <th>Ticket ID</th>
+                        <th>Student Name</th>
+                        <th>Issue Category</th>
+                        <th>Audit Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CALL123</td>
+                        <td>TICK123</td>
+                        <td>John Doe</td>
+                        <td>Technical Issue</td>
+                        <td>Pending</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Audit Pointers Section -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Audit Pointers</h5>
+            <div>
+                <h6>Call Audit Pointers:</h6>
+                <ul class="audit-pointers">
+                    <li>Clarity of communication and tone used by the agent.</li>
+                    <li>Proper issue identification and probing techniques.</li>
+                    <li>Accuracy and relevance of information provided.</li>
+                    <li>Adherence to company policies and protocols.</li>
+                    <li>Resolution provided during the call or escalation handled appropriately.</li>
+                </ul>
+            </div>
+            <div>
+                <h6>Ticket Audit Pointers:</h6>
+                <ul class="audit-pointers">
+                    <li>Completeness of ticket details and categorization.</li>
+                    <li>Timeliness and accuracy of responses.</li>
+                    <li>Proper documentation of interactions linked to the ticket.</li>
+                    <li>Resolution status and adherence to SLAs.</li>
+                    <li>Escalation and reassignment processes followed correctly.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Student Queries Page -->
+<div id="studentQueriesPage" class="dashboard-container d-none">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Student Queries</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="backToDashboard">Back to Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logoutBtn2">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <h4 class="text-center">Search Student Queries</h4>
+
+    <div class="card">
+        <div class="card-body">
+            <form id="searchForm">
+                <div class="mb-3">
+                    <label for="searchInput" class="form-label">Search by Contact Number or Email</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Enter contact number or email" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="studentProfile" class="d-none">
+        <h5 class="text-center mt-3">Student Profile</h5>
+        <div class="card">
+            <div class="card-body">
+                <p><strong>Name:</strong> <span id="studentName">John Doe</span></p>
+                <p><strong>Contact:</strong> <span id="studentContact">+1234567890</span></p>
+                <p><strong>Email:</strong> <span id="studentEmail">johndoe@example.com</span></p>
+                <h6>Call History:</h6>
+                <ul id="callHistory">
+                    <li>Call ID: CALL123 - Issue: Technical Problem - Status: Resolved</li>
+                </ul>
+                <h6>Ticket History:</h6>
+                <ul id="ticketHistory">
+                    <li>Ticket ID: TICK123 - Issue: Login Issue - Status: Closed</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script>
+    const loginPage = document.getElementById('loginPage');
+    const dashboardPage = document.getElementById('dashboardPage');
+    const studentQueriesPage = document.getElementById('studentQueriesPage');
+    const loginForm = document.getElementById('loginForm');
+    const userRole = document.getElementById('userRole');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutBtn2 = document.getElementById('logoutBtn2');
+    const studentQueriesLink = document.getElementById('studentQueriesLink');
+    const backToDashboard = document.getElementById('backToDashboard');
+
+    // Handle Login
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const role = document.getElementById('role').value;
+        if (role) {
+            userRole.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+            loginPage.classList.add('d-none');
+            dashboardPage.classList.remove('d-none');
+        }
+    });
+
+    // Handle Logout
+    logoutBtn.addEventListener('click', () => {
+        dashboardPage.classList.add('d-none');
+        loginPage.classList.remove('d-none');
+    });
+
+    logoutBtn2.addEventListener('click', () => {
+        studentQueriesPage.classList.add('d-none');
+        loginPage.classList.remove('d-none');
+    });
+
+    // Navigate to Student Queries
+    studentQueriesLink.addEventListener('click', () => {
+        dashboardPage.classList.add('d-none');
+        studentQueriesPage.classList.remove('d-none');
+    });
+
+    // Back to Dashboard
+    backToDashboard.addEventListener('click', () => {
+        studentQueriesPage.classList.add('d-none');
+        dashboardPage.classList.remove('d-none');
+    });
+
+    // Handle Search (Mock Implementation)
+    const searchForm = document.getElementById('searchForm');
+    const studentProfile = document.getElementById('studentProfile');
+
+    searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        studentProfile.classList.remove('d-none');
+    });
+
+    // Sample Data for Charts
+    const callData = [12, 19, 3, 5, 2, 3];
+    const ticketData = [7, 11, 5, 8, 3, 7];
+
+    const callChart = new Chart(document.getElementById('callChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Calls',
+                data: callData,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        }
+    });
+
+    const ticketChart = new Chart(document.getElementById('ticketChart'), {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Tickets',
+                data: ticketData,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>
